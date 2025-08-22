@@ -1,0 +1,69 @@
+definitions:
+  api.loginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  api.loginResponse:
+    properties:
+      token:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/user/change-password:
+    post:
+      description: Cambia la contraseña del usuario (simulado)
+      responses:
+        "200":
+          description: Contraseña cambiada
+          schema:
+            type: string
+      summary: Cambio de contraseña
+      tags:
+      - user
+  /api/user/login:
+    post:
+      consumes:
+      - application/json
+      description: Genera un JWT válido para el usuario autenticado
+      parameters:
+      - description: Credenciales de usuario
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/api.loginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.loginResponse'
+        "400":
+          description: Solicitud inválida
+          schema:
+            type: string
+        "500":
+          description: Error interno
+          schema:
+            type: string
+      summary: Login de usuario
+      tags:
+      - user
+  /api/user/logout:
+    post:
+      description: Termina la sesión del usuario (simulado)
+      responses:
+        "200":
+          description: Logout exitoso
+          schema:
+            type: string
+      summary: Logout del usuario
+      tags:
+      - user
+swagger: "2.0"

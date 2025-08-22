@@ -26,6 +26,16 @@ type loginResponse struct {
 	Token string `json:"token"`
 }
 
+// @Summary Login de usuario
+// @Description Genera un JWT válido para el usuario autenticado
+// @Tags user
+// @Accept json
+// @Produce json
+// @Param credentials body loginRequest true "Credenciales de usuario"
+// @Success 200 {object} loginResponse
+// @Failure 400 {string} string "Solicitud inválida"
+// @Failure 500 {string} string "Error interno"
+// @Router /api/user/login [post]
 func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	var req loginRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -52,11 +62,21 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 
+// @Summary Logout del usuario
+// @Description Termina la sesión del usuario (simulado)
+// @Tags user
+// @Success 200 {string} string "Logout exitoso"
+// @Router /api/user/logout [post]
 func (h *UserHandler) Logout(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Logout exitoso (simulado)"))
 }
 
+// @Summary Cambio de contraseña
+// @Description Cambia la contraseña del usuario (simulado)
+// @Tags user
+// @Success 200 {string} string "Contraseña cambiada"
+// @Router /api/user/change-password [post]
 func (h *UserHandler) ChangePassword(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Contraseña cambiada (simulado)"))
