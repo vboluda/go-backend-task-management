@@ -67,6 +67,7 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 // @Tags user
 // @Success 200 {string} string "Logout exitoso"
 // @Router /api/user/logout [post]
+// @Security BearerAuth
 func (h *UserHandler) Logout(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Logout exitoso (simulado)"))
@@ -77,6 +78,7 @@ func (h *UserHandler) Logout(w http.ResponseWriter, r *http.Request) {
 // @Tags user
 // @Success 200 {string} string "Contraseña cambiada"
 // @Router /api/user/change-password [post]
+// @Security BearerAuth
 func (h *UserHandler) ChangePassword(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Contraseña cambiada (simulado)"))

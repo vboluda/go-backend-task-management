@@ -11,6 +11,7 @@ import (
 
 func NewRouter(cfg *config.Config) http.Handler {
 	r := mux.NewRouter()
+	auth := AuthMiddleware(cfg)
 
 	r.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 
@@ -18,8 +19,8 @@ func NewRouter(cfg *config.Config) http.Handler {
 	userHandler := NewUserHandler(cfg)
 	userRouter := r.PathPrefix("/api/user").Subrouter()
 	userRouter.HandleFunc("/login", userHandler.Login).Methods("POST")
-	userRouter.HandleFunc("/logout", userHandler.Logout).Methods("POST")
-	userRouter.HandleFunc("/change-password", userHandler.ChangePassword).Methods("POST")
+	userRouter.HandleFunc("/logout", userHandler.Logout).Methods("POST").Handler(auth(http.HandlerFunc(userHandler.Logout)))
+	userRouter.HandleFunc("/change-password", userHandler.ChangePassword).Methods("POST").Handler(auth(http.HandlerFunc(userHandler.ChangePassword)))
 
 	return r
 }

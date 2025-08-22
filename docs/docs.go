@@ -17,6 +17,11 @@ const docTemplate = `{
     "paths": {
         "/api/user/change-password": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Cambia la contraseña del usuario (simulado)",
                 "tags": [
                     "user"
@@ -80,6 +85,11 @@ const docTemplate = `{
         },
         "/api/user/logout": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Termina la sesión del usuario (simulado)",
                 "tags": [
                     "user"
@@ -116,17 +126,25 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "description": "Ingresa el token JWT como: Bearer \u003ctoken\u003e",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
-	BasePath:         "",
+	Version:          "1.0",
+	Host:             "localhost:8080",
+	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "Task Management API",
+	Description:      "API backend en Go para manejo de usuarios y autenticación JWT",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

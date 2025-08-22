@@ -1,3 +1,4 @@
+basePath: /
 definitions:
   api.loginRequest:
     properties:
@@ -11,8 +12,12 @@ definitions:
       token:
         type: string
     type: object
+host: localhost:8080
 info:
   contact: {}
+  description: API backend en Go para manejo de usuarios y autenticación JWT
+  title: Task Management API
+  version: "1.0"
 paths:
   /api/user/change-password:
     post:
@@ -22,6 +27,8 @@ paths:
           description: Contraseña cambiada
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Cambio de contraseña
       tags:
       - user
@@ -63,7 +70,15 @@ paths:
           description: Logout exitoso
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Logout del usuario
       tags:
       - user
+securityDefinitions:
+  BearerAuth:
+    description: 'Ingresa el token JWT como: Bearer <token>'
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
