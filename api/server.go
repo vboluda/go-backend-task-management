@@ -7,21 +7,24 @@ import (
 
 	"github.com/urfave/negroni"
 	"github.com/vboluda/go-backend-task-management/config"
+	"github.com/vboluda/go-backend-task-management/database"
 )
 
 type Server struct {
 	cfg *config.Config
+	db  *database.Database
 }
 
-func NewServer(cfg *config.Config) *Server {
+func NewServer(cfg *config.Config, db *database.Database) *Server {
 	s := new(Server)
 	s.cfg = cfg
+	s.db = db
 	return s
 }
 
 func (s *Server) Start() {
 	go func() {
-		router := NewRouter(s.cfg)
+		router := NewRouter(s.cfg, s.db)
 
 		n := negroni.Classic()
 		n.UseHandler(router)

@@ -12,7 +12,8 @@
             "program": "${workspaceFolder}/main.go",
             "env": {
                 "APP_PORT": "8080",
-                "JWT_SECRET": "supersecreto"
+                "JWT_SECRET": "supersecreto",
+                "DATABASE_URL":"postgres://taskuser:secretpass@localhost:5432/taskdb?sslmode=disable"
             }
         }
     ]

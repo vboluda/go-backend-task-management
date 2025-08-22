@@ -7,14 +7,16 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/vboluda/go-backend-task-management/config"
+	"github.com/vboluda/go-backend-task-management/database"
 )
 
 type UserHandler struct {
 	cfg *config.Config
+	db  *database.Database
 }
 
-func NewUserHandler(cfg *config.Config) *UserHandler {
-	return &UserHandler{cfg: cfg}
+func NewUserHandler(cfg *config.Config, db *database.Database) *UserHandler {
+	return &UserHandler{cfg: cfg, db: db}
 }
 
 type loginRequest struct {
@@ -43,7 +45,15 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Aquí deberías validar el usuario contra una base de datos. Por ahora, lo omitimos.
+	ok, err := h.db.AuthenticateUser(req.Email, req.Password)
+	if err != nil {
+		http.Error(w, "Error interno al autenticar", http.StatusInternalServerError)
+		return
+	}
+	if !ok {
+		http.Error(w, "Credenciales inválidas", http.StatusUnauthorized)
+		return
+	}
 
 	// Crear el JWT
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{

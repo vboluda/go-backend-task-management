@@ -10,8 +10,9 @@ import (
 )
 
 type Config struct {
-	AppPort   uint
-	JWTSecret string
+	AppPort     uint
+	JWTSecret   string
+	DatabaseURL string
 }
 
 func New() *Config {
@@ -31,6 +32,7 @@ func (c *Config) LoadEnv() *Config {
 	}
 	c.AppPort = uint(port)
 	c.JWTSecret = getEnv("JWT_SECRET", "")
+	c.DatabaseURL = getEnv("DATABASE_URL", "")
 	return c
 }
 
@@ -55,6 +57,7 @@ func (c *Config) String() string {
 	str += "------------------------------------------------------\n"
 	str += fmt.Sprintf("APP_PORT: %d \n", c.AppPort)
 	str += fmt.Sprintf("JWT SECRET (LENGTH): %d \n", len(c.JWTSecret))
+	str += fmt.Sprintf("DATABASE URL %s", c.DatabaseURL)
 
 	return str
 }

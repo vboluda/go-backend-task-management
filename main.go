@@ -8,6 +8,7 @@ import (
 
 	"github.com/vboluda/go-backend-task-management/api"
 	"github.com/vboluda/go-backend-task-management/config"
+	"github.com/vboluda/go-backend-task-management/database"
 )
 
 // @title Task Management API
@@ -26,8 +27,9 @@ func main() {
 
 	// 📋 Mostrar configuración por consola
 	fmt.Println(cfg)
+	db := database.Init(cfg)
 
-	server := api.NewServer(cfg)
+	server := api.NewServer(cfg, db)
 	server.Start()
 
 	stop := make(chan os.Signal, 1)
